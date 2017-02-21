@@ -52,25 +52,25 @@ class Circle {
    void drawRightTriangle() {
      float theta = getThetaRelativeToMouse();
      PVector point = cartesianToScreen( polarToCartesian(theta, radius) ); 
-     
      // Draw hypotenuse.
      line(center.x, center.y, point.x, point.y);
      
      // Draw adjacent leg.
      PVector adj_v1 = new PVector(center.x, center.y);
      PVector adj_v2 = new PVector(point.x, center.y);
-     drawLeg(adj_v1, adj_v2); 
+     drawLeg("adjacent", adj_v1, adj_v2); 
      
      // Draw opposite leg.
      PVector opp_v1 = new PVector(point.x, center.y);
      PVector opp_v2 = new PVector(point.x, point.y);  
-     drawLeg(opp_v1, opp_v2);
+     drawLeg("opposite", opp_v1, opp_v2);
    }
    
-   void drawLeg(PVector v1, PVector v2) {
+   void drawLeg(String type, PVector v1, PVector v2) {
      textAlign(CENTER);
      textSize(10.0);
-     float dist = dist(v1.x, v1.y, v2.x, v2.y);
+     float dist = (type.equals("adjacent")) ? v2.x - v1.x : v1.y - v2.y;
+     dist = map(dist, -radius, radius, -1, 1);
      PVector mid = getMidpoint(v1, v2);
      line(v1.x, v1.y, v2.x, v2.y);
      text(dist, mid.x, mid.y - 1);
